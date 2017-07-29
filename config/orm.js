@@ -30,23 +30,28 @@ var orm = {
     });
   },
   insertOne: function(table, cols, vals, cb) {
-    var queryString = "INSERT INTO " + table;
-    queryString += " (";
-    queryString += cols.toString();
-    queryString += ") ";
-    queryString += "VALUES (";
-    queryString += printQuestionMarks(vals.length);
-    queryString += ") ";
-    console.log(queryString);
-    connection.query(queryString, vals, function(err, result) {
-      if (err) {
-        throw err;
-      }
-      cb(result);
-    });
+    console.log("vals: " + vals)
+    if(vals != ""){
+      var queryString = "INSERT INTO " + table;
+      queryString += " (";
+      queryString += cols.toString();
+      queryString += ") ";
+      queryString += "VALUES (";
+      queryString += printQuestionMarks(vals.length);
+      queryString += ") ";
+      console.log(queryString);
+      connection.query(queryString, vals, function(err, result) {
+        if (err) {
+          throw err;
+        }
+        cb(result);
+      });
+    }else{
+      console.log("Input value is empty")
+    }
   },
   // An example of objColVals would be {name: panther, sleepy: true}
-  updateONe: function(table, objColVals, condition, cb) {
+  updateOne: function(table, objColVals, condition, cb) {
     var queryString = "UPDATE " + table;
     queryString += " SET ";
     queryString += objToSql(objColVals);
